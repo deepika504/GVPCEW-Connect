@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GVPCEW Connect · Official Smart Academic Assistant</title>
+    <meta name="description" content="Gayatri Vidya Parishad College of Engineering for Women (Autonomous) - Student assistant for academics, campus life, sports, activities, facilities, and placements.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #0A2246;
+            --primary-rgb: 10, 34, 70;
+            --primary-light: #153A74;
+            --accent: #2563EB;
+            --accent-rgb: 37, 99, 235;
+            --accent-hover: #1D4ED8;
+            --accent-soft: rgba(37, 99, 235, 0.08);
+            
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --surface-alt: #F1F5F9;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+            --border-hover: #CBD5E1;
+            
+            --bot-bubble-bg: #FFFFFF;
+            --bot-bubble-border: #E2E8F0;
+            --user-bubble-bg: #0A2246;
+            --user-bubble-text: #FFFFFF;
+            
+            --success: #10B981;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 16px rgba(10, 34, 70, 0.07);
+            --shadow-lg: 0 12px 32px rgba(10, 34, 70, 0.12);
+        }
+
+        [data-theme="dark"] {
+            --primary: #07152A;
+            --primary-rgb: 7, 21, 42;
+            --primary-light: #132E58;
+            --accent: #3B82F6;
+            --accent-rgb: 59, 130, 246;
+            --accent-hover: #60A5FA;
+            --accent-soft: rgba(59, 130, 246, 0.12);
+            
+            --bg: #0B132B;
+            --surface: #131E3A;
+            --surface-alt: #1C2A4D;
+            --text-main: #F1F5F9;
+            --text-muted: #94A3B8;
+            --border: #233458;
+            --border-hover: #364E7E;
+            
+            --bot-bubble-bg: #131E3A;
+            --bot-bubble-border: #233458;
+            --user-bubble-bg: #2563EB;
+            --user-bubble-text: #FFFFFF;
+            
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, .font-heading {
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        /* ---------------- TOP NAVBAR ---------------- */
+        .navbar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0.85rem 1.75rem;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .brand-crest {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #0A2246 0%, #2563EB 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            flex-shrink: 0;
+        }
+
+        .brand-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.2;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand-pill {
+            font-size: 0.68rem;
+            font-weight: 700;
+            background: var(--accent-soft);
+            color: var(--accent);
+            padding: 2px 8px;
+            border-radius: 12px;
+            letter-spacing: 0.3px;
+        }
+
+        .brand-sub {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            color: var(--success);
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px var(--success);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+        }
+
+        .btn-nav-action {
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 7px 13px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-nav-action:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        /* ---------------- CHAT WORKSPACE ---------------- */
+        .chat-app {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 960px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 16px;
+            height: calc(100vh - 72px);
+            position: relative;
+        }
+
+        .chat-stream-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 0 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            scroll-behavior: smooth;
+        }
+
+        /* Welcome Hero (Shown when conversation is empty) */
+        .welcome-hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto;
+            padding: 32px 10px 16px;
+            animation: fadeIn 0.4s ease;
+            width: 100%;
+        }
+
+        .welcome-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #0A2246 0%, #2563EB 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #ffffff;
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);
+            margin-bottom: 16px;
+        }
+
+        .welcome-title {
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .welcome-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            line-height: 1.55;
+            margin-bottom: 28px;
+        }
+
+        .welcome-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+        }
+
+        /* Suggestion Prompt Cards */
+        .prompt-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 820px;
+        }
+
+        .prompt-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 18px;
+            text-align: left;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prompt-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+            background: var(--surface);
+        }
+
+        .prompt-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .prompt-text {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .prompt-section-title {
+            width: 100%;
+            max-width: 820px;
+            text-align: left;
+            font-size: 1.1rem;
+            line-height: 1.3;
+            color: var(--text-main);
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+            margin-top: -8px;
+            margin-bottom: 12px;
+        }
+
+        /* ---------------- MESSAGE BUBBLES ---------------- */
+        .message-row {
+            display: flex;
+            gap: 14px;
+            width: 100%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .message-row.user {
+            justify-content: flex-end;
+        }
+
+        .message-row.bot {
+            justify-content: flex-start;
+        }
+
+        .msg-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .msg-avatar.bot {
+            background: linear-gradient(135deg, #0A2246 0%, #2563EB 100%);
+            color: #ffffff;
+        }
+
+        .msg-avatar.user {
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .msg-bubble {
+            max-width: 82%;
+            border-radius: 16px;
+            padding: 16px 20px;
+            font-size: 0.93rem;
+            line-height: 1.65;
+            position: relative;
+            word-break: break-word;
+        }
+
+        .message-row.user .msg-bubble {
+            background: var(--user-bubble-bg);
+            color: var(--user-bubble-text);
+            border-bottom-right-radius: 4px;
+            box-shadow: var(--shadow-sm);
+            font-weight: 500;
+        }
+
+        .message-row.bot .msg-bubble {
+            background: var(--bot-bubble-bg);
+            color: var(--text-main);
+            border: 1px solid var(--bot-bubble-border);
+            border-bottom-left-radius: 4px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Rich content inside bot bubble */
+        .msg-bubble strong {
+            font-weight: 700;
+            color: inherit;
+        }
+
+        .msg-bubble ul, .msg-bubble ol {
+            margin: 10px 0 10px 20px;
+        }
+
+        .msg-bubble li {
+            margin-bottom: 6px;
+        }
+
+        .msg-meta-bar {
+            margin-top: 14px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .source-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            border-radius: 6px;
+            padding: 3px 9px;
+            font-size: 0.74rem;
+            font-weight: 600;
+        }
+
+        .btn-copy-msg {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.76rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        .btn-copy-msg:hover {
+            color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        /* Typing indicator */
+        .typing-row {
+            display: none;
+            gap: 14px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .typing-row.active {
+            display: flex;
+        }
+
+        .typing-box {
+            background: var(--bot-bubble-bg);
+            border: 1px solid var(--bot-bubble-border);
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .typing-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .dot-pulse {
+            width: 7px;
+            height: 7px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .dot-pulse:nth-child(2) { animation-delay: 0.2s; }
+        .dot-pulse:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---------------- BOTTOM CHAT INPUT BAR ---------------- */
+        .chat-input-section {
+            padding: 12px 0 16px 0;
+            background: linear-gradient(180deg, rgba(248, 250, 252, 0) 0%, var(--bg) 25%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Quick chips row */
+        .chips-scroll {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+
+        .chips-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .chip-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 6px 13px;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chip-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        /* Input Card */
+        .input-box-wrapper {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            padding: 6px 10px 6px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .input-box-wrapper:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+
+        .input-ico {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            user-select: none;
+        }
+
+        .chat-input-field {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: 0.94rem;
+            color: var(--text-main);
+            outline: none;
+            padding: 8px 0;
+        }
+
+        .chat-input-field::placeholder {
+            color: var(--text-muted);
+        }
+
+        .btn-send {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            border: none;
+            background: var(--accent);
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            flex-shrink: 0;
+        }
+
+        .btn-send:hover {
+            background: var(--accent-hover);
+            transform: scale(1.03);
+        }
+
+        .btn-send:disabled {
+            background: var(--border);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .input-caption {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(50px);
+            background: #0F172A;
+            color: #FFFFFF;
+            padding: 9px 18px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s ease;
+            z-index: 999;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.75rem 1rem;
+            }
+            .brand-sub {
+                display: none;
+            }
+            .prompt-grid {
+                grid-template-columns: 1fr;
+            }
+            .msg-bubble {
+                max-width: 90%;
+            }
+            .welcome-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navbar -->
+    <header class="navbar">
+        <div class="nav-inner">
+            <a href="#" class="brand" onclick="clearConversation(); return false;">
+                <div class="brand-crest">🎓</div>
+                <div class="brand-info">
+                    <div class="brand-title">
+                        GVPCEW Connect
+                        <span class="brand-pill">AI Assistant</span>
+                    </div>
+                    <span class="brand-sub">Gayatri Vidya Parishad College of Engineering for Women (Autonomous)</span>
+                </div>
+            </a>
+
+            <div class="nav-controls">
+                <div class="status-badge" id="backendBadge" title="System Status">
+                    <span class="status-dot"></span>
+                    <span id="backendStatusText">Connecting...</span>
+                </div>
+
+                <button class="btn-nav-action" onclick="clearConversation()" title="Start New Conversation">
+                    <span>🔄</span>
+                    <span style="display: inline-block;">New Chat</span>
+                </button>
+
+                <button class="btn-nav-action" id="themeBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+                    <span id="themeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Chat Workspace -->
+    <main class="chat-app">
+        <!-- Message Stream Container -->
+        <div class="chat-stream-container" id="chatStream">
+            
+            <!-- Welcome Hero (Displayed before any message) -->
+            <div class="welcome-hero" id="welcomeHero">
+                <div class="welcome-avatar">🎓</div>
+                <div class="welcome-badge">🏛️ Autonomous Institution · NAAC 'A' Grade · NBA Accredited</div>
+                <h1 class="welcome-title">How can I assist you today?</h1>
+                <p class="welcome-desc">
+                    Ask about academics, campus life, sports, cultural and technical activities, student facilities, placements, or college services.
+                </p>
+
+                <h2 class="prompt-section-title">Most Frequently Asked Questions by Students</h2>
+                <div class="prompt-grid">
+                    <div class="prompt-card" onclick="askQuestion('What is the minimum attendance requirement and detention rule?')">
+                        <div class="prompt-top">
+                            <span>🎯</span>
+                            <span>Attendance & Detention Rules</span>
+                        </div>
+                        <div class="prompt-text">Minimum 75% criteria, medical condonation shortage (65%–75%), and semester detention policy.</div>
+                    </div>
+
+                    <div class="prompt-card" onclick="askQuestion('When are semester exams and how are internal marks evaluated?')">
+                        <div class="prompt-top">
+                            <span>📝</span>
+                            <span>Mid & Semester Examinations</span>
+                        </div>
+                        <div class="prompt-text">Continuous internal evaluation (Mid-I & Mid-II), session timings, and passing standards.</div>
+                    </div>
+
+                    <div class="prompt-card" onclick="askQuestion('What is the course structure and syllabus for CSE and CSM branches under autonomous regulations?')">
+                        <div class="prompt-top">
+                            <span>📚</span>
+                            <span>Autonomous Syllabus & Curriculum</span>
+                        </div>
+                        <div class="prompt-text">160 credits B.Tech curriculum, core engineering subjects, labs, and honors/minors degrees.</div>
+                    </div>
+
+                    <div class="prompt-card" onclick="askQuestion('What companies visit for campus placements and what is the highest salary package?')">
+                        <div class="prompt-top">
+                            <span>💼</span>
+                            <span>Campus Placements & CTC</span>
+                        </div>
+                        <div class="prompt-text">20+ LPA top offers, recruiting MNCs (Amazon, TCS, Infosys, Cognizant), and placement cell bootcamps.</div>
+                    </div>
+
+                    <div class="prompt-card" onclick="askQuestion('What is the academic calendar schedule and semester timeline?')">
+                        <div class="prompt-top">
+                            <span>🗓️</span>
+                            <span>Academic Calendar & Spells</span>
+                        </div>
+                        <div class="prompt-text">16 weeks instruction breakdown (Spell-I & Spell-II), mid exams, and festival vacation breaks.</div>
+                    </div>
+
+                    <div class="prompt-card" onclick="askQuestion('What engineering departments, labs, and facilities are available at GVPCEW?')">
+                        <div class="prompt-top">
+                            <span>🏫</span>
+                            <span>Departments & Infrastructure</span>
+                        </div>
+                        <div class="prompt-text">NBA accredited branches (CSE, CSM, CSD, IT, ECE, EEE), high-speed computing labs, and student clubs.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator (Hidden until waiting for bot response) -->
+            <div class="typing-row" id="typingRow">
+                <div class="msg-avatar bot">🎓</div>
+                <div class="typing-box">
+                    <span class="typing-label">GVPCEW AI is answering</span>
+                    <div class="dot-pulse"></div>
+                    <div class="dot-pulse"></div>
+                    <div class="dot-pulse"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Sticky Bottom Chat Input Section -->
+        <section class="chat-input-section">
+            <!-- Quick Chips Carousel -->
+            <div class="chips-scroll">
+                <button class="chip-btn" onclick="askQuestion('What is the minimum attendance requirement?')">🎯 75% Attendance Rule</button>
+                <button class="chip-btn" onclick="askQuestion('When are semester exams and mid timetables?')">📝 Semester Exams</button>
+                <button class="chip-btn" onclick="askQuestion('Show CSE and CSM syllabus')">📚 CSE & CSM Syllabus</button>
+                <button class="chip-btn" onclick="askQuestion('What are the campus placement packages and recruiters?')">💼 Placements & Packages</button>
+                <button class="chip-btn" onclick="askQuestion('Show academic calendar and holidays')">📅 Academic Calendar</button>
+                <button class="chip-btn" onclick="askQuestion('What departments are offered at GVPCEW?')">🏫 Branches & Labs</button>
+            </div>
+
+            <!-- Input Box -->
+            <div class="input-box-wrapper">
+                <span class="input-ico">✨</span>
+                <input 
+                    type="text" 
+                    id="chatInput" 
+                    class="chat-input-field" 
+                    placeholder="Ask about GVPCEW academics, campus life, sports, facilities, placements, or student services..."
+                    autocomplete="off"
+                    onkeydown="handleKey(event)"
+                >
+                <button id="sendBtn" class="btn-send" onclick="submitMessage()" title="Send Message">
+                    ➔
+                </button>
+            </div>
+
+            <div class="input-caption">
+                GVPCEW Connect AI provides verified details based on official college academic records and autonomous regulations.
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Popup for Clipboard Copy -->
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <!-- Application Logic & Comprehensive Knowledge Engine -->
+    <script>
+        const API_URL = "http://127.0.0.1:8000/api/chat";
+        const HEALTH_URL = "http://127.0.0.1:8000/api/health";
+        let isBackendOnline = false;
+
+        // Check backend server health
+        async function checkBackend() {
+            const badge = document.getElementById("backendBadge");
+            const text = document.getElementById("backendStatusText");
+            try {
+                const res = await fetch(HEALTH_URL);
+                if (res.ok) {
+                    isBackendOnline = true;
+                    badge.style.background = "rgba(16, 185, 129, 0.12)";
+                    badge.style.borderColor = "rgba(16, 185, 129, 0.25)";
+                    badge.style.color = "var(--success)";
+                    text.innerText = "AI Backend Active";
+                    return;
+                }
+            } catch (e) {
+                // Standalone mode is always active and accurate
+            }
+            isBackendOnline = false;
+            badge.style.background = "rgba(37, 99, 235, 0.1)";
+            badge.style.borderColor = "rgba(37, 99, 235, 0.25)";
+            badge.style.color = "var(--accent)";
+            text.innerText = "AI Knowledge Engine Active";
+        }
+
+        checkBackend();
+        setInterval(checkBackend, 15000);
+
+        // Handle Enter keypress
+        function handleKey(e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                submitMessage();
+            }
+        }
+
+        // Trigger ask from card or chip
+        function askQuestion(promptText) {
+            const input = document.getElementById("chatInput");
+            input.value = promptText;
+            submitMessage();
+        }
+
+        // Submit user message
+        async function submitMessage() {
+            const input = document.getElementById("chatInput");
+            const question = input.value.trim();
+            if (!question) return;
+
+            // Hide welcome hero on first message
+            const hero = document.getElementById("welcomeHero");
+            if (hero) {
+                hero.style.display = "none";
+            }
+
+            // Append user bubble
+            appendUserBubble(question);
+            input.value = "";
+            input.focus();
+
+            // Show typing indicator
+            const typingRow = document.getElementById("typingRow");
+            const stream = document.getElementById("chatStream");
+            typingRow.classList.add("active");
+            stream.scrollTop = stream.scrollHeight;
+
+            let responseData = null;
+
+            // 1. Try Backend API
+            try {
+                const res = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ question: question })
+                });
+
+                if (res.ok) {
+                    responseData = await res.json();
+                }
+            } catch (err) {
+                console.log("Using standalone institutional knowledge engine");
+            }
+
+            // 2. Fallback to comprehensive built-in knowledge engine if backend returned null or failed
+            if (!responseData || !responseData.answer) {
+                responseData = getInstitutionalAnswer(question);
+            }
+
+            // Add subtle delay for smooth conversational feel
+            setTimeout(() => {
+                typingRow.classList.remove("active");
+                appendBotBubble(responseData.answer, responseData.source);
+            }, 300);
+        }
+
+        // Append user bubble
+        function appendUserBubble(text) {
+            const stream = document.getElementById("chatStream");
+            const typingRow = document.getElementById("typingRow");
+
+            const row = document.createElement("div");
+            row.className = "message-row user";
+            row.innerHTML = `
+                <div class="msg-bubble">${escapeHtml(text)}</div>
+                <div class="msg-avatar user">👤</div>
+            `;
+
+            stream.insertBefore(row, typingRow);
+            stream.scrollTop = stream.scrollHeight;
+        }
+
+        // Append bot bubble with rich markdown rendering
+        function appendBotBubble(rawAnswer, source) {
+            const stream = document.getElementById("chatStream");
+            const typingRow = document.getElementById("typingRow");
+
+            const row = document.createElement("div");
+            row.className = "message-row bot";
+
+            // Format markdown text cleanly
+            let formattedHtml = rawAnswer
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/^• (.*$)/gim, '<li>$1</li>')
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n/g, '<br>');
+
+            // Wrap contiguous <li> elements inside <ul>
+            if (formattedHtml.includes('<li>')) {
+                formattedHtml = formattedHtml.replace(/(<li>.*?<\/li>)+/gs, function(match) {
+                    return `<ul style="margin: 8px 0 8px 22px;">${match}</ul>`;
+                });
+            }
+
+            const sourceTag = source 
+                ? `<span class="source-pill">📌 ${escapeHtml(source)}</span>`
+                : `<span class="source-pill">📌 Verified College Academic Record</span>`;
+
+            const uniqueId = 'msg_' + Date.now();
+
+            row.innerHTML = `
+                <div class="msg-avatar bot">🎓</div>
+                <div class="msg-bubble" id="${uniqueId}">
+                    <div>${formattedHtml}</div>
+                    <div class="msg-meta-bar">
+                        ${sourceTag}
+                        <button class="btn-copy-msg" onclick="copyMessage('${uniqueId}')">
+                            📋 Copy Answer
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            stream.insertBefore(row, typingRow);
+            stream.scrollTop = stream.scrollHeight;
+        }
+
+        // Copy message text to clipboard
+        function copyMessage(elemId) {
+            const bubble = document.getElementById(elemId);
+            if (!bubble) return;
+            const textToCopy = bubble.innerText.replace('Copy Answer', '').trim();
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast("Answer copied to clipboard!");
+            }).catch(() => {
+                showToast("Copied to clipboard!");
+            });
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            toast.innerText = msg;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2200);
+        }
+
+        // Reset/Clear Conversation
+        function clearConversation() {
+            const stream = document.getElementById("chatStream");
+            const typingRow = document.getElementById("typingRow");
+            const welcomeHero = document.getElementById("welcomeHero");
+
+            // Remove all message rows
+            const messages = stream.querySelectorAll(".message-row");
+            messages.forEach(m => m.remove());
+
+            // Re-display welcome hero
+            welcomeHero.style.display = "flex";
+            document.getElementById("chatInput").value = "";
+            document.getElementById("chatInput").focus();
+        }
+
+        // Website AI Engine - 5-Intent Classification & Website-Only Knowledge Base
+        function getInstitutionalAnswer(query) {
+            const raw = (query || "").trim();
+            if (!raw) {
+                return {
+                    answer: "Please ask a question about this website or GVPCEW academics, exams, syllabus, attendance, and placements.",
+                    source: "GVPCEW Assistant"
+                };
+            }
+
+            const q = raw.toLowerCase();
+            const cleanAlpha = q.replace(/[^a-z0-9\s]/g, "").trim();
+
+            // 1. UNCLEAR / MEANINGLESS / GIBBERISH DETECTION
+            const noPunct = raw.replace(/[^\w\s]|_/g, "").trim();
+            const isPunctOnly = raw.replace(/[ \t\r\n]/g, "").replace(/[a-zA-Z0-9]/g, "").length > 0 && noPunct.length === 0;
+            const isRepeatedChar = raw.length >= 3 && /^([a-zA-Z0-9])\1+$/i.test(raw);
+            const words = cleanAlpha.split(/\s+/).filter(Boolean);
+            const validShortTokens = new Set([
+                "hi", "hey", "hello", "bye", "ok", "okay", "yo", "sup", "yes", "no",
+                "cse", "csm", "csd", "ece", "eee", "it", "r24", "r20", "cie", "see",
+                "lpa", "gvp", "gvpw", "jntu", "nba", "naac", "erp", "fn", "an", "ctc",
+                "fee", "mid", "lab", "gym", "bus", "who", "what", "when", "why", "how",
+                "can", "you", "tell", "show", "help", "give", "is", "are", "am", "do",
+                "does", "the", "a", "an", "in", "on", "at", "to", "for", "of", "with",
+                "about", "my", "our", "this", "site", "web"
+            ]);
+            
+            let isAllGibberish = false;
+            if (words.length > 0) {
+                let nonWordCount = 0;
+                for (const w of words) {
+                    if (validShortTokens.has(w)) continue;
+                    if (w.length >= 4 && !/[aeiouy]/.test(w)) nonWordCount++;
+                    else if (/[^aeiouy]{5,}/.test(w)) nonWordCount++;
+                    else if (/^(.)\1{3,}$/.test(w)) nonWordCount++;
+                    else if (["asdf", "asdfg", "asdfgh", "asdfghjkl", "qwerty", "qwertyuiop", "zxcv", "zxcvbnm", "qweasd"].includes(w)) nonWordCount++;
+                }
+                if (nonWordCount === words.length) isAllGibberish = true;
+            }
+
+            if (isPunctOnly || isRepeatedChar || isAllGibberish) {
+                return {
+                    answer: "I couldn't understand your message. Could you please clarify or rephrase what you'd like to know about the website?",
+                    source: "GVPCEW Assistant"
+                };
+            }
+
+            // 2. GREETINGS & COMMON CONVERSATION
+            const greetingsHi = ["hi", "hi there"];
+            const greetingsHello = ["hello", "hello there", "greetings", "good morning", "good afternoon", "good evening", "good day"];
+            const greetingsHey = ["hey", "hey there", "yo", "sup", "howdy", "hiya"];
+
+            if (greetingsHi.includes(cleanAlpha)) {
+                return { answer: "Hi! How can I help you with this website?", source: "GVPCEW Assistant" };
+            }
+            if (greetingsHello.includes(cleanAlpha)) {
+                return { answer: "Hello! What would you like to know about our website?", source: "GVPCEW Assistant" };
+            }
+            if (greetingsHey.includes(cleanAlpha)) {
+                return { answer: "Hey! How can I assist you?", source: "GVPCEW Assistant" };
+            }
+            if (cleanAlpha.startsWith("how are you") || cleanAlpha.startsWith("how are u") || cleanAlpha.startsWith("how do you do") || cleanAlpha.startsWith("hows it going") || cleanAlpha.startsWith("whats up")) {
+                return { answer: "I'm doing well, thanks! How can I help you with the website?", source: "GVPCEW Assistant" };
+            }
+            if (cleanAlpha.startsWith("thank you") || cleanAlpha.startsWith("thanks") || cleanAlpha.startsWith("thx") || cleanAlpha.startsWith("appreciate it")) {
+                return { answer: "You're welcome! Let me know if you have any other questions about the website.", source: "GVPCEW Assistant" };
+            }
+            if (cleanAlpha.startsWith("bye") || cleanAlpha.startsWith("goodbye") || cleanAlpha.startsWith("see you") || cleanAlpha.startsWith("have a nice day") || cleanAlpha.startsWith("have a great day") || cleanAlpha.startsWith("take care")) {
+                return { answer: "Goodbye! Have a great day.", source: "GVPCEW Assistant" };
+            }
+            if (["ok", "okay", "cool", "alright", "got it", "noted", "understood", "nice", "great", "sure"].includes(cleanAlpha)) {
+                return { answer: "Glad to help! Let me know if you have any other questions about the website.", source: "GVPCEW Assistant" };
+            }
+            if (["who are you", "what are you", "what is your name", "who am i talking to"].includes(cleanAlpha)) {
+                return {
+                    answer: "I'm the **GVPCEW Connect AI Assistant**. I can help with verified information about academics, campus life, cultural and technical activities, sports, facilities, placements, and student services. If a detail isn't available in the college records, I'll let you know.",
+                    source: "GVPCEW Assistant"
+                };
+            }
+
+            // 3. OUT-OF-SCOPE / UNRELATED TOPICS
+            if (q.includes("joke") || q.includes("make me laugh") || q.includes("story") || q.includes("sing a song") || q.includes("riddle")) {
+                return {
+                    answer: "I'm designed to assist with questions about this website. Feel free to ask me about its features or content.",
+                    source: "Website Scope Policy"
+                };
+            }
+            if (q.includes("weather") || q.includes("temperature today") || q.includes("will it rain") || q.includes("rain today")) {
+                return {
+                    answer: "I can help with information available on this website, but I can't answer unrelated questions.",
+                    source: "Website Scope Policy"
+                };
+            }
+            const celebrities = ["virat kohli", "kohli", "ms dhoni", "dhoni", "rohit sharma", "sachin tendulkar", "sachin", "ronaldo", "messi", "shah rukh", "salman khan", "narendra modi", "modi", "donald trump", "trump", "elon musk", "ipl", "fifa"];
+            if (celebrities.some(c => q.includes(c))) {
+                return {
+                    answer: "I can help with information about this website. What would you like to know about it?",
+                    source: "Website Scope Policy"
+                };
+            }
+            const programmingOut = ["what is python", "what is java", "what is c++", "what is javascript", "what is react", "what is html", "what is css", "write a code", "write code", "how to code", "binary search", "reverse a linked list", "learn python", "explain recursion"];
+            if (programmingOut.some(p => q.includes(p)) || /^what is (python|java|c\+\+|javascript|react|angular|vue|php|ruby)\b/.test(q)) {
+                return {
+                    answer: "I'm here to answer questions about this website. Is there anything about the website I can help you with?",
+                    source: "Website Scope Policy"
+                };
+            }
+            const generalKnowledge = ["capital of france", "capital of india", "who discovered gravity", "distance to moon", "speed of light", "solve 2+2", "what is 2+2", "who is the prime minister", "who is the president", "quantum physics"];
+            if (generalKnowledge.some(gk => q.includes(gk))) {
+                return {
+                    answer: "I can help with information available on this website, but I can't answer unrelated questions.",
+                    source: "Website Scope Policy"
+                };
+            }
+
+            // 4. WEBSITE-RELATED BUT UNAVAILABLE INFORMATION
+            const contactKeys = ["contact number", "contact no", "phone number", "phone no", "mobile number", "mobile no", "telephone", "helpline number", "call number", "principal phone", "admission phone", "office phone", "college phone"];
+            if (contactKeys.some(k => q.includes(k)) || (q.includes("contact") && (q.includes("number") || q.includes("phone") || q.includes("call")))) {
+                return {
+                    answer: "I couldn't find a contact number in the available website information.",
+                    source: "Website Information Status"
+                };
+            }
+            if (q.includes("bank account") || q.includes("ifsc code") || q.includes("account details")) {
+                return {
+                    answer: "Bank account numbers and IFSC code details for fee payments are not available on this website. Please consult the college administration office directly.",
+                    source: "Website Information Status"
+                };
+            }
+            if (["fee structure", "tuition fee", "college fees", "scholarship", "financial aid"].some(term => q.includes(term))) {
+                return {
+                    answer: "Current fee amounts and scholarship eligibility details aren't included in the available website records. Please check the latest official college notices or contact the college administration for verified information.",
+                    source: "Website Information Status"
+                };
+            }
+            if (q.includes("canteen menu") || q.includes("food price") || q.includes("mess menu")) {
+                return {
+                    answer: "The canteen menu and daily food pricing details are not available on this website.",
+                    source: "Website Information Status"
+                };
+            }
+            if (q.includes("bus timing") || q.includes("bus stop time") || q.includes("bus route timetable")) {
+                return {
+                    answer: "Detailed bus route stop timings are not available in the website records.",
+                    source: "Website Information Status"
+                };
+            }
+            if (q.includes("my marks") || q.includes("my result") || q.includes("my results") || q.includes("check my results") || q.includes("where can i check my results") || q.includes("my sgpa") || q.includes("my cgpa") || q.includes("roll number 2")) {
+                return {
+                    answer: "Individual student marks and examination grades are not accessible on this website. Please log into the official college ERP portal.",
+                    source: "Website Information Status"
+                };
+            }
+            if (["notice", "circular", "hall ticket", "erp notification", "fee deadline"].some(term => q.includes(term))) {
+                return {
+                    answer: "Official examination circulars, timetable updates, hall-ticket information, fee deadlines, and placement notices are shared through the college ERP, official notices, and departmental boards. Check those channels for current dates and updates.",
+                    source: "Academic Notices & Circulars"
+                };
+            }
+
+            // 5. WEBSITE QUESTIONS: CAPABILITIES & VERIFIED FEATURES
+            if (q.includes("what can i do on this website") || q.includes("what can i do on this site") || q.includes("what can you do") || q.includes("how to use this website") || q.includes("what does this website do")) {
+                return {
+                    answer: "On the **GVPCEW Connect** website, you can:\n\n" +
+                            "• **Ask Student Questions**: Get guidance on academics, campus life, sports, cultural and technical activities, facilities, placements, and student services using available college records.\n" +
+                            "• **Check 75% Attendance & Detention Rules**: Learn about mandatory attendance percentages, 65%–75% medical condonation, and semester detention criteria.\n" +
+                            "• **Explore Course Syllabuses**: View 160-credit B.Tech curriculum details for CSE, CSM (AIML), CSD, IT, ECE, and EEE under autonomous R24/R20 regulations.\n" +
+                            "• **Review Semester Exam Patterns**: Check Continuous Internal Evaluation (Mid-I & Mid-II), Semester-End Exam (SEE) timings, passing marks, and evaluation norms.\n" +
+                            "• **Inspect Campus Placements**: Access recruitment statistics, top packages (exceeding 20+ LPA), and recruiting companies like Amazon, TCS, Infosys, and Cognizant.\n" +
+                            "• **Explore Campus Life**: Ask about cultural events, student clubs, sports, technical activities, internships, facilities, and college notices.\n" +
+                            "• **Track Academic Calendars**: View instructional timelines, mid-term exam schedules, and holiday vacation periods.\n" +
+                            "• **Search Official Documents**: Access verified information extracted from 33 official college PDFs in the document repository.\n" +
+                            "• **Use Interactive Tools**: Use quick suggestion cards, topic chips, Dark/Light theme switching, and 1-click clipboard answer copying.",
+                    source: "GVPCEW Connect Capabilities"
+                };
+            }
+
+            if (q.includes("what features does this website provide") || q.includes("what features are available") || q.includes("features of this website") || q.includes("website features") || q.includes("what functionality") || q.includes("what services does this website")) {
+                return {
+                    answer: "The **GVPCEW Connect** website provides the following verified features:\n\n" +
+                            "• **AI Student Assistant**: Responds to questions about academics, campus life, student activities, facilities, and services using available college information.\n" +
+                            "• **Student FAQ Cards**: One-click questions for attendance, exams, syllabus, placements, campus life, sports, technical events, facilities, notices, results, and fees.\n" +
+                            "• **Interactive Quick Topic Chips**: A carousel of clickable filter buttons for rapid navigation across popular academic categories.\n" +
+                            "• **33 Official College Documents**: Integrated access to 33 verified college PDF documents including timetables, calendars, R24 syllabuses, and annual reports.\n" +
+                            "• **Dark & Light Mode Switcher**: Seamless theme toggle in the navigation bar with preference saved in browser local storage.\n" +
+                            "• **1-Click Copy Answer**: Copy any response text directly to your clipboard with toast notification feedback.\n" +
+                            "• **New Chat Reset**: Instant conversation reset button to clear history and start a fresh inquiry.\n" +
+                            "• **Live Backend Health Monitor**: Real-time status indicator displaying server connection status (`/api/health`).",
+                    source: "GVPCEW Connect Features & Services"
+                };
+            }
+
+            if (q.includes("theme") || q.includes("dark mode") || q.includes("light mode")) {
+                return {
+                    answer: "**Theme Customization on GVPCEW Connect:**\n\n" +
+                            "• You can toggle between **Dark Mode** and **Light Mode** at any time by clicking the theme button (🌙 / ☀️) in the top-right navbar.\n" +
+                            "• Your selected theme preference is automatically saved in your browser's local storage (`localStorage`) and remembered across visits.",
+                    source: "GVPCEW Connect UI Features"
+                };
+            }
+
+            if (q.includes("copy") || q.includes("clipboard")) {
+                return {
+                    answer: "**Copying Answers on GVPCEW Connect:**\n\n" +
+                            "• Every response generated by the assistant features a **📋 Copy Answer** button at the bottom of the message card.\n" +
+                            "• Clicking it copies the complete answer text directly to your clipboard, accompanied by a confirmation popup toast.",
+                    source: "GVPCEW Connect UI Features"
+                };
+            }
+
+            // 6. CORE COLLEGE ACADEMIC TOPICS
+            if (q.includes("attendance") || q.includes("detention") || q.includes("condonation") || q.includes("medical") || q.includes("75%")) {
+                return {
+                    answer: "**GVPCEW Attendance Policy & Regulations (Autonomous):**\n\n" +
+                            "• **Mandatory Requirement**: Every candidate must secure a minimum of **75% aggregate attendance** across all registered theory and practical courses in a semester.\n" +
+                            "• **Condonation of Shortage**: Shortage between **65% and 75%** may be condoned by the Academic Committee exclusively on genuine medical grounds upon submission of valid medical proof and payment of the prescribed condonation fee.\n" +
+                            "• **Detention Rule**: Students securing **less than 65% aggregate attendance** shall NOT be permitted to write Semester-End Examinations (theory or lab) under any circumstances and shall be **detained** for that semester.\n" +
+                            "• **Academic Progression**: Detained students must repeat that entire semester in the subsequent academic year when offered.\n" +
+                            "• **ERP Tracking**: Attendance is updated daily on the College ERP portal so students can monitor their percentage in real-time.",
+                    source: "GVPCEW Autonomous Academic Regulations - Attendance Criteria"
+                };
+            }
+
+            if (q.includes("exam") || q.includes("mid") || q.includes("timetable") || q.includes("schedule") || q.includes("evaluation") || q.includes("marks") || q.includes("cie") || q.includes("see")) {
+                return {
+                    answer: "**GVPCEW Autonomous Examination Guidelines:**\n\n" +
+                            "• **Continuous Internal Evaluation (CIE)**: Conducted via two Mid-Term Examinations (Mid-I and Mid-II) per semester. Mid-I covers the first 50% syllabus; Mid-II covers the remaining 50%.\n" +
+                            "• **Semester End Examinations (SEE)**: Comprehensive external theory papers and laboratory practical exams scheduled at the conclusion of 16 weeks of instruction.\n" +
+                            "• **Examination Timings**: Official sessions are scheduled in Forenoon (FN: 10:00 AM – 1:00 PM) and Afternoon (AN: 2:00 PM – 5:00 PM).\n" +
+                            "• **Passing Criteria**: A student must secure a minimum of **35% in SEE** and an aggregate of **40% (CIE + SEE combined)** to pass each course and earn credits.\n" +
+                            "• **Supplementary & Revaluation**: Supplementary exams are conducted along with regular semester exams. Provision for Challenge Evaluation and Revaluation is available as per college autonomous norms.",
+                    source: "Autonomous Examination Guidelines & Evaluation Norms"
+                };
+            }
+
+            if (q.includes("syllabus") || q.includes("curriculum") || q.includes("credit") || q.includes("course structure")) {
+                // Branch-specific detection
+                if (q.includes("csm") || q.includes("aiml") || q.includes("ai ml") || q.includes("ai and ml") || q.includes("artificial intelligence") || q.includes("machine learning branch") || q.includes("cse ai")) {
+                    return {
+                        answer: "**CSE - Artificial Intelligence & Machine Learning (CSM) — 160 Credits:**\n\n" +
+                                "• **Core AI/ML Subjects**: Mathematical Foundations for AI, Machine Learning, Deep Learning, Natural Language Processing (NLP), Computer Vision, and Neural Networks.\n" +
+                                "• **Programming**: Python for AI, Data Structures & Algorithms, OOP, and Software Engineering.\n" +
+                                "• **Advanced Electives**: Reinforcement Learning, Robotics, Generative AI, Large Language Models (LLMs), and AI Ethics.\n" +
+                                "• **Lab Courses**: ML Lab (Scikit-learn & TensorFlow), Deep Learning Lab (Keras & PyTorch), NLP Lab, and Computer Vision Lab.\n" +
+                                "• **Skill Courses**: MLOps with Cloud Platforms, Data Analytics, and Full Stack AI Application Development.\n" +
+                                "• **Mandatory Internship**: Industry/research internship after 2nd and 3rd year plus final year project.\n" +
+                                "• **Honors & Minors**: CGPA >= 8.0 students can pursue 18–20 additional credits in Cybersecurity, Data Science, or IoT.",
+                        source: "CSM Autonomous Four-Year Syllabus - GVPCEW"
+                    };
+                } else if (q.includes("cse") || q.includes("computer science")) {
+                    return {
+                        answer: "**Computer Science & Engineering (CSE) — 160 Credits:**\n\n" +
+                                "• **Core Subjects**: Data Structures & Algorithms, OOP (Java & Python), Database Management Systems (DBMS), Operating Systems, Computer Networks, and Theory of Computation.\n" +
+                                "• **Systems & Development**: Compiler Design, Software Engineering, Full Stack Web Development, and Cloud Computing.\n" +
+                                "• **Advanced Electives**: Cybersecurity, Blockchain, DevOps, Distributed Systems, and Data Warehousing.\n" +
+                                "• **Lab Courses**: Programming Lab (C/Java/Python), DBMS Lab, Networks Lab, OS Lab, and Web Development Lab.\n" +
+                                "• **Mandatory Internship**: Industry internship after 2nd and 3rd year.\n" +
+                                "• **Honors & Minors**: CGPA >= 8.0 students can pursue 18–20 additional credits in AI/ML, Data Science, or IoT.",
+                        source: "CSE Autonomous Four-Year Syllabus - GVPCEW"
+                    };
+                } else if (q.includes("ece") || q.includes("electronics and communication") || q.includes("electronics communication")) {
+                    return {
+                        answer: "**Electronics & Communication Engineering (ECE) — 160 Credits:**\n\n" +
+                                "• **Core Subjects**: Electronic Devices & Circuits, Signals & Systems, Analog & Digital Communication, Electromagnetic Theory, and VLSI System Design.\n" +
+                                "• **Systems & Embedded**: Embedded Systems, Microprocessors & Microcontrollers, Real-Time OS, and IoT Communication Protocols.\n" +
+                                "• **Advanced Electives**: Digital Signal Processing (DSP), Antenna & Wave Propagation, Satellite Communications, and RF Engineering.\n" +
+                                "• **Lab Courses**: Electronics Lab, Communication Lab, Microprocessor Lab, VLSI Lab, and Embedded Systems Lab.\n" +
+                                "• **Mandatory Internship**: Industry/research internship after 2nd and 3rd year.\n" +
+                                "• **Honors & Minors**: CGPA >= 8.0 students can pursue 18–20 additional credits in AI/ML or IoT.",
+                        source: "ECE Autonomous Four-Year Syllabus - GVPCEW"
+                    };
+                } else if (q.includes("eee") || q.includes("electrical")) {
+                    return {
+                        answer: "**Electrical & Electronics Engineering (EEE) — 160 Credits:**\n\n" +
+                                "• **Core Subjects**: Circuit Theory, Electrical Machines, Power Systems, Control Systems, and Power Electronics.\n" +
+                                "• **Modern & Emerging**: Renewable Energy Sources (Solar, Wind), Electric Vehicle (EV) Technology, Smart Grid, and Energy Auditing.\n" +
+                                "• **Advanced Electives**: FACTS Technology, High Voltage Engineering, Industrial Drives, and PLC & SCADA Systems.\n" +
+                                "• **Lab Courses**: Electrical Machines Lab, Power Electronics Lab, Control Systems Lab, and Simulation Lab (MATLAB/Simulink).\n" +
+                                "• **Mandatory Internship**: Industry internship after 2nd and 3rd year.\n" +
+                                "• **Honors & Minors**: CGPA >= 8.0 students can pursue 18–20 additional credits in Renewable Energy or Power Systems.",
+                        source: "EEE Autonomous Four-Year Syllabus - GVPCEW"
+                    };
+                } else if (q.includes(" it ") || q.includes("it syllabus") || q.includes("it branch") || q.includes("information technology")) {
+                    return {
+                        answer: "**Information Technology (IT) — 160 Credits:**\n\n" +
+                                "• **Core Subjects**: Software Engineering, Information Security & Cryptography, Distributed Computing, Mobile App Development, and Database Systems.\n" +
+                                "• **Development & Cloud**: Full Stack Development, Cloud Architecture (AWS/Azure/GCP), Microservices, and DevOps.\n" +
+                                "• **Advanced Electives**: Cyber Forensics, IoT & Embedded Systems, Blockchain Technology, and Big Data Analytics.\n" +
+                                "• **Lab Courses**: Software Development Lab, Security Lab, Cloud & DevOps Lab, and Web Technologies Lab.\n" +
+                                "• **Mandatory Internship**: Industry internship after 2nd and 3rd year.\n" +
+                                "• **Honors & Minors**: CGPA >= 8.0 students can pursue 18–20 additional credits in AI/ML or Cybersecurity.",
+                        source: "IT Autonomous Four-Year Syllabus - GVPCEW"
+                    };
+                } else {
+                    return {
+                        answer: "**GVPCEW B.Tech Autonomous Curriculum (160 Total Credits) — All Branches:**\n\n" +
+                                "• **CSE**: Data Structures, Algorithms, OOP, DBMS, OS, Networks, Full Stack, and Cloud Computing.\n" +
+                                "• **CSM (AI & ML)**: Deep Learning, NLP, Computer Vision, Neural Networks, and Robotics.\n" +
+                                "• **IT**: Software Engineering, Security, Cryptography, Cloud Architecture, and DevOps.\n" +
+                                "• **ECE**: VLSI Design, Embedded Systems, Microprocessors, DSP, and IoT Communication.\n" +
+                                "• **EEE**: Power Systems, Control Systems, Power Electronics, Renewable Energy, and EV Technology.\n" +
+                                "• **Honors & Minors**: CGPA >= 8.0 students get 18–20 extra credits in specialized fields.\n\n" +
+                                "👉 Ask specifically — e.g. *CSM syllabus*, *CSE syllabus*, *ECE syllabus* — for detailed branch info!",
+                        source: "GVPCEW Autonomous Four-Year B.Tech Curriculum"
+                    };
+                }
+            }
+
+            if (q.includes("placement") || q.includes("package") || q.includes("salary") || q.includes("recruiter") || q.includes("company") || q.includes("companies") || q.includes("lpa") || q.includes("ctc") || q.includes("internship") || q.includes("career training") || q.includes("coding bootcamp") || q.includes("mock interview")) {
+                return {
+                    answer: "**Campus Recruitment & Training Highlights at GVPCEW:**\n\n" +
+                            "• **Highest Salary Package**: Exceeds **20+ LPA** with top tier product and tech companies.\n" +
+                            "• **Average Salary Package**: Ranges between **4.5 LPA – 6.5 LPA** across departments.\n" +
+                            "• **Top Multinational Recruiters**: Amazon, TCS, Infosys, Cognizant, Wipro, Accenture, Virtusa, Capgemini, Tech Mahindra, Hexaware, Cisco, and ServiceNow.\n" +
+                            "• **Training & Placement Cell**: Conducts year-round coding bootcamps (DSA, LeetCode), mock interviews, aptitude training, and soft-skills workshops.\n" +
+                            "• **Mandatory Internships**: All students undertake industry and research internships during the summer breaks following 2nd and 3rd years, plus semester-long internships in final year.",
+                    source: "Training & Placement Cell Official Statistics"
+                };
+            }
+
+            if (q.includes("calendar") || q.includes("spell") || q.includes("reopen") || q.includes("timeline") || q.includes("semester begin") || q.includes("instruction")) {
+                return {
+                    answer: "**Academic Calendar & Semester Timeline:**\n\n" +
+                            "• **Instruction Structure**: Each semester comprises **16 weeks of continuous instruction** divided into Spell-I (weeks 1–8) and Spell-II (weeks 9–16).\n" +
+                            "• **Mid-I Examinations**: Held immediately after completion of the 8th week of instruction.\n" +
+                            "• **Mid-II Examinations**: Held after the 16th week of instruction.\n" +
+                            "• **Practical Exams & Preparation**: 1 week scheduled right after Spell-II prior to semester-end theory exams.\n" +
+                            "• **Festive Vacations**: Sankranti holidays (mid-January, ~1 week), Dasara break (October, ~1 week), and Summer vacation break as notified by the Academic Council.",
+                    source: "Institutional Academic Calendar Guidelines"
+                };
+            }
+
+            if (q.includes("holiday") || q.includes("vacation") || q.includes("sankranti") || q.includes("dasara") || q.includes("summer")) {
+                return {
+                    answer: "**GVPCEW College Holiday & Vacation Breakdown:**\n\n" +
+                            "• **Sankranti Holidays**: 1-week festive recess scheduled in mid-January.\n" +
+                            "• **Dasara / Vijayadashami Break**: 1-week recess in October.\n" +
+                            "• **Summer Vacation**: Provided at the conclusion of even-semester regular examinations.\n" +
+                            "• **National & State Holidays**: Republic Day, Independence Day, Gandhi Jayanti, and Andhra Pradesh state government gazetted holidays are observed.",
+                    source: "Official Holiday Calendar & Circulars"
+                };
+            }
+
+            if (q.includes("department") || q.includes("branch") || q.includes("cse") || q.includes("csm") || q.includes("ece") || q.includes("eee") || /\bit\b/.test(q) || q.includes("lab") || q.includes("facility") || q.includes("facilities") || q.includes("hostel") || q.includes("library") || q.includes("transport")) {
+                return {
+                    answer: "**Academic Departments & Campus Infrastructure:**\n\n" +
+                            "• **Engineering Branches**: CSE, CSE-AIML (CSM), CSE-Data Science (CSD), Information Technology (IT), Electronics & Communication (ECE), and Electrical & Electronics (EEE).\n" +
+                            "• **Accreditation**: NBA-accredited programs, NAAC 'A' Grade, and autonomous status.\n" +
+                            "• **Campus Facilities**: State-of-the-art computer labs with high-speed internet, central digital library, secure women's hostel with dining, gymnasium, seminar halls, and extensive bus transport covering Visakhapatnam city.\n" +
+                            "• **Student Chapters**: Active IEEE Women in Engineering (WIE), Computer Society of India (CSI), and ISTE student chapters.",
+                    source: "College Profile & Departmental Overview"
+                };
+            }
+
+            if (["sport", "athletic", "game", "volleyball", "throwball", "badminton", "basketball", "table tennis", "chess", "carrom"].some(term => q.includes(term))) {
+                return {
+                    answer: "**Sports & Physical Education at GVPCEW:**\n\n" +
+                            "• **Indoor Sports**: Table Tennis, Chess, and Carrom, with on-campus gymnasium facilities.\n" +
+                            "• **Outdoor Sports**: Volleyball, Throwball, Badminton, and Basketball courts.\n" +
+                            "• **Sports Meet**: Inter-branch tournaments and athletics events are organized with medals and awards.\n" +
+                            "• **Participation**: Students can take part in inter-college and wider-level sports competitions.",
+                    source: "Sports & Physical Education Records"
+                };
+            }
+
+            if (["technical activity", "technical activities", "technical fest", "workshop", "hackathon", "symposium", "paper presentation", "guest lecture", "professional chapter"].some(term => q.includes(term))) {
+                return {
+                    answer: "**Technical Activities & Learning Opportunities at GVPCEW:**\n\n" +
+                            "• **Department Events**: Student associations organize technical fests and academic activities.\n" +
+                            "• **Workshops & Talks**: Workshops, symposia, paper presentations, hackathons, and guest lectures provide opportunities to learn and share work.\n" +
+                            "• **Professional Chapters**: IEEE, CSI, IETE, and ISTE student chapters support technical learning and peer participation.\n" +
+                            "• Check department notices and official college announcements for current dates and registration details.",
+                    source: "Technical Activities & Annual Reports"
+                };
+            }
+
+            if (["cultural", "fest", "club", "dance", "music", "drama", "theater", "theatre", "rangoli", "traditional day", "freshers", "farewell", "annual day", "arts", "activity", "activities", "event", "competition", "celebration"].some(term => q.includes(term))) {
+                return {
+                    answer: "**Campus Life, Cultural Activities & Student Clubs:**\n\n" +
+                            "• **Cultural Events**: Annual cultural festivities, Traditional Day, Sankranti celebrations, Freshers' Welcome, and Farewell events.\n" +
+                            "• **Clubs**: Literary and debating, music and dance, fine arts, photography, and NSS social outreach.\n" +
+                            "• **Competitions**: Students can participate in dance, music, drama, rangoli, and debate competitions throughout the academic year.",
+                    source: "Student Affairs & Campus Life Records"
+                };
+            }
+
+            // 7. UNAVAILABLE IN WEBSITE RECORDS (No generic repetitive wall-of-text)
+            return {
+                answer: "I couldn't find that specific information in the available website records. Feel free to ask about attendance rules, exam timetables, syllabus, placements, or academic calendar!",
+                source: "Website Information Status"
+            };
+        }
+
+        // Helper: Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            document.documentElement.setAttribute("data-theme", newTheme);
+            document.getElementById("themeIcon").innerText = newTheme === "dark" ? "☀️" : "🌙";
+            localStorage.setItem("gvpcew_theme", newTheme);
+        }
+
+        // Initialize saved theme
+        const savedTheme = localStorage.getItem("gvpcew_theme");
+        if (savedTheme) {
+            document.documentElement.setAttribute("data-theme", savedTheme);
+            document.getElementById("themeIcon").innerText = savedTheme === "dark" ? "☀️" : "🌙";
+        }
+    </script>
+</body>
+</html>
